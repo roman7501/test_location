@@ -49,6 +49,7 @@ const Port = ({ className }) => {
             <p>Sous vos pieds il y a un son</p>
             <audio
               controls
+              preload="auto"
               src="https://firebasestorage.googleapis.com/v0/b/esquif-f53eb.appspot.com/o/Orchestre%20Lamoureux%20-%2009%20-%20Pocket%20Piano%20Orchestral%20Version.mp3?alt=media&token=e066c44a-fbae-4521-803b-18350cca469c"
             ></audio>
           </div>
