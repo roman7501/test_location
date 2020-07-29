@@ -1,88 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 
 import styled from "styled-components";
+import useLocation from "../hooks/useLocation";
 
 const Port = ({ className }) => {
-  const [lat1, setLat1] = useState(null);
-  const [long1, setLong1] = useState(null);
-  const lat2 = 48.850455;
-  const long2 = 2.382466;
-  const [distance, setDistance] = useState(null);
-
-  // ** Definition des fonctions
-
-  // * Get data location
-  const getCoordinates = (position) => {
-    setLat1(position.coords.latitude);
-    setLong1(position.coords.longitude);
-  };
-
-  // * Errors for location
-
-  const handleLocationError = (error) => {
-    switch (error.code) {
-      case error.PERMISSION_DENIED:
-        alert("ton esquif n'est pas autorisé a utilisé le radar");
-        break;
-      case error.POSITION_UNAVAILABLE:
-        alert("Actuellement, le port est introuvable");
-        break;
-      case error.TIMEOUT:
-        alert("The request to get user location timed out.");
-        break;
-      case error.UNKNOWN_ERROR:
-        alert("An unknown error occurred.");
-        break;
-      default:
-        alert("An unknown error occurred.");
-    }
-  };
-
-  // *Format numbers **
-  const numberWithSpaces = (x) => {
-    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-  };
-
-  // * Calcul distance
-  const measure = (la1, lo1, la2, lo2) => {
-    // generally used geo measurement function
-    var R = 6378.137; // Radius of earth in KM
-    console.log(la1, lo1);
-    var dLat = (la2 * Math.PI) / 180 - (la1 * Math.PI) / 180;
-    var dLon = (lo2 * Math.PI) / 180 - (lo1 * Math.PI) / 180;
-    var a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos((la1 * Math.PI) / 180) *
-        Math.cos((la2 * Math.PI) / 180) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    var d = R * c;
-    const result = d * 1000;
-    const formatResult = numberWithSpaces(Math.round(result)); // meters
-    setDistance(formatResult);
-  };
-
-  // 1. Vérification si navigateur géolocalise
-
-  const getLocation = () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        getCoordinates,
-        handleLocationError
-      );
-    } else {
-      alert("ton esquif n'est pas autorisé a utilisé son radar");
-    }
-  };
-  // 2/ Get distance
-
-  useEffect(() => {
-    if (lat1) {
-      measure(lat1, long1, lat2, long2);
-    }
-  }, [lat1, long1]);
-
+  const {
+    handleChangeLat,
+    handleChangeLong,
+    lat1,
+    long1,
+    lat2,
+    long2,
+    getLocation,
+    distance,
+  } = useLocation();
   return (
     <div className={className}>
       <div className="info">
@@ -90,18 +21,38 @@ const Port = ({ className }) => {
         <p>
           {lat1} - {long1}
         </p>
-
         <p>Port :</p>
         <p>
           {lat2} - {long2}
         </p>
+        <input
+          onChange={handleChangeLat}
+          type="text"
+          name="lat2"
+          value={lat2}
+        />{" "}
+        |
+        <input
+          onChange={handleChangeLong}
+          type="text"
+          name="long2"
+          value={long2}
+        />
       </div>
       <div className="port">
         <button onClick={getLocation}>trouver un port</button>
         {distance && distance > 10 && (
           <p>Un port se trouve à environ {distance} pas</p>
         )}
-        {distance && distance < 10 && <p>Sous vos pieds il y a un son</p>}
+        {distance && distance < 10 && (
+          <div>
+            <p>Sous vos pieds il y a un son</p>
+            <audio
+              controls
+              src="https://firebasestorage.googleapis.com/v0/b/esquif-f53eb.appspot.com/o/Orchestre%20Lamoureux%20-%2009%20-%20Pocket%20Piano%20Orchestral%20Version.mp3?alt=media&token=e066c44a-fbae-4521-803b-18350cca469c"
+            ></audio>
+          </div>
+        )}
       </div>
     </div>
   );
@@ -126,5 +77,10 @@ export default styled(Port)`
     border: 0.5px solid white;
     padding: 1em;
     outline: transparent;
+  }
+  input {
+    padding: 0.5em;
+    border: none;
+    border-radius: 5px;
   }
 `;
