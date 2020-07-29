@@ -4,7 +4,7 @@ const useLocation = () => {
   const [lat1, setLat1] = useState(null);
   const [long1, setLong1] = useState(null);
   const [lat2, setLat2] = useState(48.8505344);
-  const [long2, setLong2] = useState(2.3822335999999997);
+  const [long2, setLong2] = useState(2.382466);
 
   const [distance, setDistance] = useState(null);
 
@@ -87,6 +87,7 @@ const useLocation = () => {
     if (lat1) {
       measure(lat1, long1, lat2, long2);
     }
+    // eslint-disable-next-line
   }, [lat1, long1, lat2, long2]);
 
   return {
