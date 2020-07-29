@@ -4,7 +4,7 @@ const useLocation = () => {
   const [lat1, setLat1] = useState(null);
   const [long1, setLong1] = useState(null);
   const [lat2, setLat2] = useState(48.8505344);
-  const [long2, setLong2] = useState(2.382466);
+  const [long2, setLong2] = useState(2.3822335999999997);
 
   const [distance, setDistance] = useState(null);
 
@@ -72,6 +72,7 @@ const useLocation = () => {
   // 1. Vérification si navigateur géolocalise
 
   const getLocation = () => {
+    console.log("searching location...");
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         getCoordinates,
