@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { CSSTransition } from "react-transition-group";
-import ReactPlayer from "react-player";
 
 import styled from "styled-components";
 import useLocation from "../hooks/useLocation";
@@ -43,20 +42,26 @@ const Port = ({ className }) => {
           <p>Un port se trouve à environ {distance} pas</p>
         )}
         {distance && distance < 10 && (
-          <div>
-            <p>Sous vos pieds il y a un son</p>
-            <ReactPlayer
-              playing
-              onPlay={() => setIsPlay(true)}
-              playIcon={<button>écouter</button>}
-              width="100%"
-              height="50px"
-              light="https://images-na.ssl-images-amazon.com/images/I/31-gzkSRPuS.png"
-              url="https://firebasestorage.googleapis.com/v0/b/esquif-f53eb.appspot.com/o/Orchestre%20Lamoureux%20-%2009%20-%20Pocket%20Piano%20Orchestral%20Version.mp3?alt=media&token=e066c44a-fbae-4521-803b-18350cca469c"
-            />
-          </div>
+          <CSSTransition
+            in={!isPlay}
+            appear={true}
+            timeout={1000}
+            classNames="fade"
+          >
+            <div>
+              <p>Sous vos pieds il y a un son</p>
+              <button onClick={() => setIsPlay(true)}>écouter</button>
+            </div>
+          </CSSTransition>
         )}
       </div>
+
+      {isPlay && (
+        <audio
+          autoplay="true"
+          src="https://firebasestorage.googleapis.com/v0/b/esquif-f53eb.appspot.com/o/Orchestre%20Lamoureux%20-%2009%20-%20Pocket%20Piano%20Orchestral%20Version.mp3?alt=media&token=e066c44a-fbae-4521-803b-18350cca469c"
+        ></audio>
+      )}
 
       {isPlay && <p>ferme les yeux</p>}
     </div>
@@ -65,6 +70,9 @@ const Port = ({ className }) => {
 
 export default styled(Port)`
   padding: 3px;
+  audio {
+    display: none;
+  }
   .info {
     color: grey;
     font-size: 0.8em;
