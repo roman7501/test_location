@@ -5,15 +5,24 @@ const data = {
       transition: "10",
     },
     {
-      text: " ",
+      text: "tu fais quoi",
       transition: "10",
     },
     {
-      text: "ah bon ?",
+      text: " oui",
+      transition: "10",
+    },
+    {
+      text: "ah bon ",
       transition: "10",
     },
     {
       text: "oui, oui",
+      transition: "10",
+    },
+
+    {
+      text: "rien j'essaye un truc",
       transition: "10",
     },
   ],

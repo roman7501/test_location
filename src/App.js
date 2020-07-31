@@ -5,21 +5,31 @@ import styled from "styled-components";
 import Slide from "./Components/Slide";
 import data from "./data/data";
 
-import { CSSTransition, TransitionGroup } from "react-transition-group";
-
-const time2 = 30;
-const time3 = 1500;
-const time1 = time2 + time3;
+import { useTransition, animated } from "react-spring";
+import SlidePair from "./Components/SlidePair";
+import SlideImpair from "./Components/SlideImpair";
 
 function App({ className }) {
   const [index, setIndex] = useState(0);
   const [sliders, setSliders] = useState(data.sliders[0]);
+  const [indexSlide, setIndexSlide] = useState(5);
+  const [isPair, setIsPair] = useState(false);
 
   const nextSlide = () => {
-    if (index < Object.keys(sliders).length) {
+    if (index < indexSlide) {
       const newIndex = index + 1;
       setSliders(data.sliders[index]);
       setIndex(newIndex);
+      pair(index);
+      console.log(isPair, index);
+    }
+  };
+
+  const pair = (i) => {
+    if (i % 2 === 0) {
+      setIsPair(true);
+    } else {
+      setIsPair(false);
     }
   };
 
@@ -27,40 +37,46 @@ function App({ className }) {
     setSliders(data.sliders[index]);
   }, [index]);
 
+  const transitions = useTransition(isPair, null, {
+    from: { position: "absolute", opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
+  });
+  const transitions2 = useTransition(!isPair, null, {
+    from: { position: "absolute", opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
+  });
+
   return (
-    <div className="App" className={className}>
+    <div className={className} onClick={() => nextSlide()}>
       <GlobalStyle />
-      <TransitionGroup className="card-container">
-        <CSSTransition key={sliders.text} timeout={time1} classNames="slide">
-          <Slide sliders={sliders} />
-        </CSSTransition>
-      </TransitionGroup>
-      <button onClick={() => nextSlide()}>Next</button>
+      {isPair &&
+        transitions.map(
+          ({ item, key, props }) =>
+            item && (
+              <animated.div key={key} style={props}>
+                <SlidePair />
+              </animated.div>
+            )
+        )}
+      {!isPair &&
+        transitions2.map(
+          ({ item, key, props }) =>
+            item && (
+              <animated.div key={key} style={props}>
+                <SlideImpair />
+              </animated.div>
+            )
+        )}
     </div>
   );
 }
 
 export default styled(App)`
-  .slide-enter {
-    opacity: 0;
-    z-index: 1;
-  }
-  .slide-enter.slide-enter-active {
-    opacity: 1;
-    transition: opacity ${time2}ms linear;
-  }
-  .slide-enter-done {
-  }
-
-  /* slide exit */
-  .slide-exit {
-    opacity: 1;
-  }
-  .slide-exit.slide-exit-active {
-    opacity: 0;
-    transition: opacity ${time3}ms linear;
-  }
-  .slide-exit-done {
-    opacity: 0;
-  }
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 `;

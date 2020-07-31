@@ -1,19 +1,16 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 
 const Slide = ({ sliders, className }) => {
-  const { text, transition } = sliders;
+  const { text } = sliders;
 
   return (
     <div>
-      <div>
+      <div className="text">
         <p className={text}>{text}</p>
       </div>
     </div>
   );
 };
 
-export default styled(Slide)`
-  .text {
-  }
-`;
+export default styled(Slide)``;
