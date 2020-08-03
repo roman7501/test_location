@@ -54,7 +54,8 @@ const SlidePair = ({ className, slides, isPair, nextSlide }) => {
             <div>
               <p style={style}>{slides.text}</p>
             </div>
-            <motion.button
+            <motion.div
+              className="button"
               variants={buttonVariants}
               onClick={() => {
                 nextSlide();
@@ -77,10 +78,10 @@ export default styled(SlidePair)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  button {
-    margin-top: 100px;
+  .button {
     width: 20px;
     height: 20px;
+    background: white;
     border-radius: 50px;
     border: none;
     outline: none;

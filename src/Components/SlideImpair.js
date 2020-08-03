@@ -52,7 +52,8 @@ const SlideImpair = ({ className, slides, isPair, nextSlide }) => {
           <div>
             <p style={style}>{slides.text}</p>
           </div>
-          <motion.button
+          <motion.div
+            className="button"
             variants={buttonVariants}
             onClick={() => {
               nextSlide();
@@ -74,10 +75,11 @@ export default styled(SlideImpair)`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  button {
-    margin-top: 100px;
+  text-align: center;
+  .button {
     width: 20px;
     height: 20px;
+    background: white;
     border-radius: 50px;
     border: none;
     outline: none;

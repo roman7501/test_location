@@ -9,8 +9,6 @@ const data = {
       text: "C'est pas grave",
       enter: "5",
       exit: "2",
-      x1: "10px",
-      y1: "20px",
     },
     {
       text: "Ça arrive",
@@ -37,7 +35,7 @@ const data = {
       text:
         "Je ne t'entends pas mais si tu veux bien nous pouvons marcher ensemble ",
       enter: "1",
-      exit: "2",
+      exit: "20",
     },
     {
       text: " ",
