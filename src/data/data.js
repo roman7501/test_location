@@ -2,28 +2,47 @@ const data = {
   sliders: [
     {
       text: "Aujourd'hui je me suis perdue",
-      transition: "10",
+      enter: "10",
+      exit: "2",
     },
     {
-      text: "tu fais quoi",
-      transition: "10",
+      text: "C'est pas grave",
+      enter: "5",
+      exit: "2",
+      x1: "10px",
+      y1: "20px",
     },
     {
-      text: " oui",
-      transition: "10",
+      text: "Ça arrive",
+      enter: "1",
+      exit: "2",
     },
     {
-      text: "ah bon ",
-      transition: "10",
+      text: "Je marche",
+      enter: "1",
+      exit: "2",
     },
     {
-      text: "oui, oui",
-      transition: "10",
+      text: "Est-ce qu'on peut marcher ensemble ? ",
+      enter: "1",
+      exit: "2",
     },
 
     {
-      text: "rien j'essaye un truc",
-      transition: "10",
+      text: " ",
+      enter: "1",
+      exit: "2",
+    },
+    {
+      text:
+        "Je ne t'entends pas mais si tu veux bien nous pouvons marcher ensemble ",
+      enter: "1",
+      exit: "2",
+    },
+    {
+      text: " ",
+      enter: "1",
+      exit: "2",
     },
   ],
 };
