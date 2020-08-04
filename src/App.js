@@ -3,6 +3,7 @@ import "./App.css";
 import GlobalStyle from "./theme/GlobalStyle";
 import styled from "styled-components";
 import data from "./data/data";
+import Port from "./Components/Port";
 
 import SlidePair from "./Components/SlidePair";
 import SlideImpair from "./Components/SlideImpair";
@@ -38,8 +39,9 @@ function App({ className }) {
   return (
     <div className={className}>
       <GlobalStyle />
-      <SlidePair slides={slides} isPair={isPair} nextSlide={nextSlide} />
-      <SlideImpair slides={slides} isPair={isPair} nextSlide={nextSlide} />
+      {/* <SlidePair slides={slides} isPair={isPair} nextSlide={nextSlide} />
+      <SlideImpair slides={slides} isPair={isPair} nextSlide={nextSlide} /> */}
+      <Port />
     </div>
   );
 }

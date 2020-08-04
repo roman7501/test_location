@@ -1,10 +1,13 @@
 import { useState, useEffect } from "react";
+import dataLocations from "../data/dataLocations";
 
 const useLocation = () => {
+  const location = dataLocations.locations[1];
   const [lat1, setLat1] = useState(null);
   const [long1, setLong1] = useState(null);
-  const [lat2, setLat2] = useState(48.8505344);
-  const [long2, setLong2] = useState(2.3822335999999997);
+  const [lat2, setLat2] = useState(location.latitude);
+  const [long2, setLong2] = useState(location.longitude);
+  const [howFar, setHowFar] = useState(null);
 
   const [distance, setDistance] = useState(null);
 
@@ -65,6 +68,7 @@ const useLocation = () => {
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     var d = R * c;
     const result = d * 1000;
+    verifyDistance(result);
     const formatResult = numberWithSpaces(Math.round(result)); // meters
     setDistance(formatResult);
   };
@@ -91,6 +95,23 @@ const useLocation = () => {
     // eslint-disable-next-line
   }, [lat1, long1, lat2, long2]);
 
+  const verifyDistance = (d) => {
+    if (d) {
+      if (d > 10000) {
+        setHowFar(10000);
+      } else if (d > 1000) {
+        setHowFar(1000);
+      } else if (d > 100) {
+        setHowFar(100);
+      } else if (d > 10) {
+        setHowFar(10);
+      }
+    } else {
+      console.log("non il n y a pas de distance");
+      setHowFar(null);
+    }
+  };
+
   return {
     handleChangeLat,
     handleChangeLong,
@@ -100,6 +121,8 @@ const useLocation = () => {
     long2,
     getLocation,
     distance,
+    location,
+    howFar,
   };
 };
 

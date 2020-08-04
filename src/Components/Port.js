@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { CSSTransition } from "react-transition-group";
 
 import styled from "styled-components";
@@ -15,44 +15,41 @@ const Port = ({ className }) => {
     long2,
     getLocation,
     distance,
+    location,
+    howFar,
   } = useLocation();
+
+  useEffect(() => {
+    console.log("howfar=", howFar);
+  });
+
   const [isPlay, setIsPlay] = useState(false);
+
   return (
     <div className={className}>
-      <CSSTransition
-        in={!isPlay}
-        appear={false}
-        timeout={1000}
-        classNames="fade"
-      >
-        <Info
-          className="info"
-          lat1={lat1}
-          long1={long1}
-          lat2={lat2}
-          long2={long2}
-          handleChangeLat={handleChangeLat}
-          handleChangeLong={handleChangeLong}
-        />
-      </CSSTransition>
+      <Info
+        className="info"
+        lat1={lat1}
+        long1={long1}
+        lat2={lat2}
+        long2={long2}
+        handleChangeLat={handleChangeLat}
+        handleChangeLong={handleChangeLong}
+      />
 
       <div className="port">
         <button onClick={getLocation}>trouver un port</button>
-        {distance && distance > 10 && (
-          <p>Un port se trouve à environ {distance} pas</p>
+        {howFar === 100 && <p>Un port se trouve à environ {distance} pas</p>}
+        {howFar === 10000 && (
+          <p>
+            Prochain port : {location.name} - {distance} pas
+          </p>
         )}
         {distance && distance < 10 && (
-          <CSSTransition
-            in={!isPlay}
-            appear={true}
-            timeout={1000}
-            classNames="fade"
-          >
-            <div>
-              <p>Sous vos pieds il y a un son</p>
-              <button onClick={() => setIsPlay(true)}>écouter</button>
-            </div>
-          </CSSTransition>
+          <div>
+            <p>Sous vos pieds il y a un son</p>
+            <button onClick={() => setIsPlay(true)}>écouter</button>
+          </div>
         )}
       </div>
 
@@ -89,23 +86,7 @@ export default styled(Port)`
     align-items: center;
     flex-direction: column;
   }
-  .fade-appear {
-    opacity: 0;
-  }
-  .fade-appear.fade-appear-active {
-    opacity: 1;
-    transition: opacity 1s linear;
-  }
-  .fade-exit {
-    opacity: 1;
-  }
-  .fade-exit.fade-exit-active {
-    opacity: 0;
-    transition: opacity 1000ms linear;
-  }
-  .fade-exit-done {
-    opacity: 0;
-  }
+
   button {
     background: transparent;
     color: white;
