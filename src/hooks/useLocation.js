@@ -8,6 +8,7 @@ const useLocation = () => {
   const [lat2, setLat2] = useState(location.latitude);
   const [long2, setLong2] = useState(location.longitude);
   const [howFar, setHowFar] = useState(null);
+  const [isLoading, setIsLoading] = useState(null);
 
   const [distance, setDistance] = useState(null);
 
@@ -52,6 +53,25 @@ const useLocation = () => {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
   };
 
+  // Verify distance
+  const verifyDistance = (d) => {
+    if (d) {
+      setIsLoading(false);
+      if (d > 10000) {
+        setHowFar(10000);
+      } else if (d > 1000) {
+        setHowFar(1000);
+      } else if (d > 100) {
+        setHowFar(100);
+      } else if (d > 10) {
+        setHowFar(10);
+      }
+    } else {
+      console.log("non il n y a pas de distance");
+      setHowFar(null);
+    }
+  };
+
   // * Calcul distance
   const measure = (la1, lo1, la2, lo2) => {
     // generally used geo measurement function
@@ -68,15 +88,20 @@ const useLocation = () => {
     var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     var d = R * c;
     const result = d * 1000;
-    verifyDistance(result);
-    const formatResult = numberWithSpaces(Math.round(result)); // meters
-    setDistance(formatResult);
+    setTimeout(() => {
+      verifyDistance(result);
+      const formatResult = numberWithSpaces(Math.round(result)); // meters
+      setDistance(formatResult);
+    }, 5000);
   };
 
   // 1. Vérification si navigateur géolocalise
 
   const getLocation = () => {
     console.log("searching location...");
+    if (!distance) {
+      setIsLoading(true);
+    }
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         getCoordinates,
@@ -92,25 +117,9 @@ const useLocation = () => {
     if (lat1) {
       measure(lat1, long1, lat2, long2);
     }
+
     // eslint-disable-next-line
   }, [lat1, long1, lat2, long2]);
-
-  const verifyDistance = (d) => {
-    if (d) {
-      if (d > 10000) {
-        setHowFar(10000);
-      } else if (d > 1000) {
-        setHowFar(1000);
-      } else if (d > 100) {
-        setHowFar(100);
-      } else if (d > 10) {
-        setHowFar(10);
-      }
-    } else {
-      console.log("non il n y a pas de distance");
-      setHowFar(null);
-    }
-  };
 
   return {
     handleChangeLat,
@@ -123,6 +132,7 @@ const useLocation = () => {
     distance,
     location,
     howFar,
+    isLoading,
   };
 };
 

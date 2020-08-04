@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { CSSTransition } from "react-transition-group";
 
 import styled from "styled-components";
 import useLocation from "../hooks/useLocation";
 import Info from "./Info";
+
+import Loader from "./Loader";
 
 const Port = ({ className }) => {
   const {
@@ -17,6 +18,7 @@ const Port = ({ className }) => {
     distance,
     location,
     howFar,
+    isLoading,
   } = useLocation();
 
   useEffect(() => {
@@ -39,6 +41,7 @@ const Port = ({ className }) => {
 
       <div className="port">
         <button onClick={getLocation}>trouver un port</button>
+        {isLoading && <Loader />}
         {howFar === 100 && <p>Un port se trouve à environ {distance} pas</p>}
         {howFar === 10000 && (
           <p>
@@ -86,7 +89,9 @@ export default styled(Port)`
     align-items: center;
     flex-direction: column;
   }
-
+  .loader {
+    margin-top: 50px;
+  }
   button {
     background: transparent;
     color: white;

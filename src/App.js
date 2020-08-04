@@ -39,14 +39,19 @@ function App({ className }) {
   return (
     <div className={className}>
       <GlobalStyle />
-      {/* <SlidePair slides={slides} isPair={isPair} nextSlide={nextSlide} />
-      <SlideImpair slides={slides} isPair={isPair} nextSlide={nextSlide} /> */}
       <Port />
+      <div className="slides">
+        <SlidePair slides={slides} isPair={isPair} nextSlide={nextSlide} />
+        <SlideImpair slides={slides} isPair={isPair} nextSlide={nextSlide} />
+      </div>
     </div>
   );
 }
 
 export default styled(App)`
+  .slides {
+    background: red;
+  }
   min-height: 100vh;
   display: flex;
   justify-content: center;
