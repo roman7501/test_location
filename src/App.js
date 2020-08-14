@@ -3,7 +3,6 @@ import "./App.css";
 import GlobalStyle from "./theme/GlobalStyle";
 import styled from "styled-components";
 import data from "./data/data";
-import Port from "./Components/Port";
 
 import SlidePair from "./Components/SlidePair";
 import SlideImpair from "./Components/SlideImpair";
@@ -13,9 +12,11 @@ function App({ className }) {
   const [slides, setSlides] = useState(data.sliders[0]);
   const [isPair, setIsPair] = useState(false);
   const numberOfSlides = data.sliders.length - 1;
+  const [onMobile, setOnMobile] = useState();
 
   useEffect(() => {
     setSlides(data.sliders[index]);
+    verifMobile();
   }, [index]);
 
   const nextSlide = () => {
@@ -36,14 +37,58 @@ function App({ className }) {
     }
   };
 
+  const verifMobile = () => {
+    var isMobile = {
+      Android: function () {
+        return navigator.userAgent.match(/Android/i);
+      },
+      BlackBerry: function () {
+        return navigator.userAgent.match(/BlackBerry/i);
+      },
+      iOS: function () {
+        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+      },
+      Opera: function () {
+        return navigator.userAgent.match(/Opera Mini/i);
+      },
+      Windows: function () {
+        return (
+          navigator.userAgent.match(/IEMobile/i) ||
+          navigator.userAgent.match(/WPDesktop/i)
+        );
+      },
+      any: function () {
+        return (
+          isMobile.Android() ||
+          isMobile.BlackBerry() ||
+          isMobile.iOS() ||
+          isMobile.Opera() ||
+          isMobile.Windows()
+        );
+      },
+    };
+    if (isMobile.any()) {
+      setOnMobile(true);
+    } else {
+      setOnMobile(false);
+    }
+  };
   return (
     <div className={className}>
       <GlobalStyle />
-      <Port />
-      <div className="slides">
-        <SlidePair slides={slides} isPair={isPair} nextSlide={nextSlide} />
-        <SlideImpair slides={slides} isPair={isPair} nextSlide={nextSlide} />
-      </div>
+      {onMobile === false && <p>L'esquif a besoin d'être sur un téléphone</p>}
+      {onMobile && (
+        <div>
+          <div className="slides">
+            <SlidePair slides={slides} isPair={isPair} nextSlide={nextSlide} />
+            <SlideImpair
+              slides={slides}
+              isPair={isPair}
+              nextSlide={nextSlide}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }

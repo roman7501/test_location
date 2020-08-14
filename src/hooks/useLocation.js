@@ -38,13 +38,13 @@ const useLocation = () => {
         alert("Actuellement, le port est introuvable");
         break;
       case error.TIMEOUT:
-        alert("The request to get user location timed out.");
+        alert("Actuellement, le port est introuvable");
         break;
       case error.UNKNOWN_ERROR:
-        alert("An unknown error occurred.");
+        alert("Actuellement, le port est introuvable");
         break;
       default:
-        alert("An unknown error occurred.");
+        alert("Actuellement, le port est introuvable");
     }
   };
 
